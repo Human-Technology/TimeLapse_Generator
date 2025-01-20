@@ -110,7 +110,7 @@ trap "RUN=false" SIGINT SIGTERM
 
 count=0
 while $RUN; do
-  if [[ $DURATION_MIN -GT 0 && $(date +%s) -ge $END_TIME ]]; then
+  if [[ $DURATION_MIN -gt 0 && $(date +%s) -ge $END_TIME ]]; then
     RUN=false
     break
   fi
