@@ -38,8 +38,13 @@ TimeLapse Generator es un script en Bash que permite capturar imágenes con una 
   ```
 - Si no especificas una duración, el script se ejecutará indefinidamente hasta que lo detengas manualmente (Ctrl+C)
 
-4. Ejemplo de uso:
+## Ejemplo de uso:
+
   ```bash
   ./timelapse-generator.sh 30 /home/user/timelapse
   ```
 - Esto ejecutará el script durante 30 minutos y guardará las imágenes y el video en la carpeta `/home/user/timelapse`.
+
+
+## Licencia
+Este proyecto está licenciado bajo la licencia MIT.
