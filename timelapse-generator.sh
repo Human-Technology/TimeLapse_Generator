@@ -36,24 +36,27 @@ if [ $# -lt 1 ]; then
 fi
 
 #Funcion para Verifica si los paquetes necesarios estan instalados
-check_and_install(){
-  REQUIRED_PACKAGES=("fswebcam" "v4lutils" "ffmpeg")
+check_and_install() {
+  REQUIRED_PACKAGES=("fswebcam" "v4l-utils" "ffmpeg")
   MISSING_PACKAGES=()
 
-  echo -e "${BLUE}Actualizando el sistema antes de verificar los paquetes necesarios...${NC}"
-  sudo apt update && sudo apt upgrade -y
-  if [ $? -ne 0 ]; then
-    echo -e "${RED}Error al actualizar el sistema. Verifica tu conexión a Internet.${NC}"
-    exit 1
-  fi
-
+  # Verificar si algún paquete está ausente
   for PACKAGE in "${REQUIRED_PACKAGES[@]}"; do
     if ! dpkg -l | grep -q "^ii.*${PACKAGE}"; then
       MISSING_PACKAGES+=("$PACKAGE")
     fi
   done
 
+  # Si hay paquetes faltantes, actualizar el sistema y luego instalarlos
   if [ ${#MISSING_PACKAGES[@]} -gt 0 ]; then
+    echo -e "${BLUE}Faltan los siguientes paquetes: ${MISSING_PACKAGES[@]}.${NC}"
+    echo -e "${BLUE}Actualizando el sistema antes de instalar los paquetes necesarios...${NC}"
+    sudo apt update && sudo apt upgrade -y
+    if [ $? -ne 0 ]; then
+      echo -e "${RED}Error al actualizar el sistema. Verifica tu conexión a Internet.${NC}"
+      exit 1
+    fi
+
     echo -e "${BLUE}Instalando paquetes necesarios: ${MISSING_PACKAGES[@]}...${NC}"
     sudo apt install -y "${MISSING_PACKAGES[@]}"
     if [ $? -ne 0 ]; then
